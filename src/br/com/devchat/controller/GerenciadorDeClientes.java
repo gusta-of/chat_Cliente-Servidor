@@ -38,7 +38,7 @@ public class GerenciadorDeClientes extends Thread {
 			}
 			
 		} catch (IOException e) {
-			System.err.println("[!] " + this.cpf + " saiu da sala!");
+			System.err.println("[!] Cliente desconectou!");
 		}
 	}
 	
@@ -47,6 +47,5 @@ public class GerenciadorDeClientes extends Thread {
 		String menssagem  = cpfValido ? " válido" : " não é válido!";
 		
 		escritor.println(this.cpf + menssagem);
-		System.out.println("[!] " + this.cpf + " entrou");
 	}
 }
