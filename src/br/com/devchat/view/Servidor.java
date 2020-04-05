@@ -24,9 +24,7 @@ public class Servidor {
 			System.err.println("[Erro]  A porta do servidor pode estar ocupada ou o mesmo foi fechado");
 			e.printStackTrace();
 		}
-		
-		
-		
+
 	}
 
 	public static ServerSocket getServidor() {

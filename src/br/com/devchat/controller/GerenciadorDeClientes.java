@@ -6,12 +6,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import br.com.devchat.utils.Validador;
+
 public class GerenciadorDeClientes extends Thread {
 	
 	private Socket cliente;
 	private BufferedReader leitor;
 	private PrintWriter escritor;
-	private Object nomeCliente;
+	private Object cpf;
 	
 	public GerenciadorDeClientes(Socket cliente) {
 		this.cliente = cliente;
@@ -25,19 +27,26 @@ public class GerenciadorDeClientes extends Thread {
 			leitor = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
 			escritor = new PrintWriter(cliente.getOutputStream(), true);
 		
-			escritor.println("Digite seu nome para conectar");
+			escritor.println("Digite um cpf:");
 			String msg = leitor.readLine();
-			this.nomeCliente = msg;
+			this.cpf = msg;
 			
-			escritor.println(this.nomeCliente + " está conectado ao servidor!");
-			System.out.println("[!] " + this.nomeCliente + " entrou");
+			mandaMenssagem(escritor, cpf);
 			while(true) {
 				msg = leitor.readLine();
-				escritor.println( this.nomeCliente + " disse: " + msg);
+				mandaMenssagem(escritor, msg);
 			}
 			
 		} catch (IOException e) {
-			System.err.println("[!] " + this.nomeCliente + " saiu da sala!");
+			System.err.println("[!] " + this.cpf + " saiu da sala!");
 		}
+	}
+	
+	private void mandaMenssagem(PrintWriter escritor, Object cpf) {
+		boolean cpfValido = Validador.validacpf(String.valueOf(cpf));
+		String menssagem  = cpfValido ? " válido" : " não é válido!";
+		
+		escritor.println(this.cpf + menssagem);
+		System.out.println("[!] " + this.cpf + " entrou");
 	}
 }
